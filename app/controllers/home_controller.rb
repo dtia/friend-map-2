@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
   def index
-    fb_service = FacebookService.new
-    puts fb_service.test
+    puts 'inside home controller'
   end
 
   private

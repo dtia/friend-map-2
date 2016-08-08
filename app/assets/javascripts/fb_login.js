@@ -8,7 +8,8 @@ function statusChangeCallback(response) {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        testAPI();
+        // testAPI();
+        sendAuth(response.authResponse);
     } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.
         document.getElementById('status').innerHTML = 'Please log ' +
@@ -36,7 +37,7 @@ window.fbAsyncInit = function() {
         cookie     : true,  // enable cookies to allow the server to access
                             // the session
         xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.5' // use graph api version 2.5
+        version    : 'v2.7' // use graph api version 2.5
     });
 
     // Now that we've initialized the JavaScript SDK, we call
@@ -74,6 +75,13 @@ function testAPI() {
         console.log('Successful login for: ' + response.name);
         document.getElementById('status').innerHTML =
             'Thanks for logging in, ' + response.name + '!';
+    });
+}
+
+function sendAuth(authResponse) {
+    console.log('sending api key');
+    $.post('/fb/token', {token: authResponse.accessToken, uid: authResponse.userID} , function(data) {
+        console.log('data received');
     });
 }
 
